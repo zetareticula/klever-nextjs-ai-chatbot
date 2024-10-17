@@ -20,8 +20,8 @@ export const Overview = () => {
           <MessageIcon />
         </p>
         <p>
-          This is an open source Chatbot template built with Next.js and the AI
-          SDK by Vercel. It uses the{" "}
+          This is Klever AI, a chat application that uses the OpenAI GPT-3
+         built with{" "}
           <code className="rounded-md bg-muted px-1 py-0.5">streamText</code>{" "}
           function in the server and the{" "}
           <code className="rounded-md bg-muted px-1 py-0.5">useChat</code> hook

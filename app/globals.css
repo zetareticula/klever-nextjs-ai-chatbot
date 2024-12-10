@@ -6,38 +6,44 @@
   --foreground-rgb: 0, 0, 0;
   --background-start-rgb: 214, 219, 220;
   --background-end-rgb: 255, 255, 255;
+  --primary: 35, 100%, 60%;
+  --secondary: 240, 4%, 90%;
+  --accent: 220, 70%, 50%;
+  --destructive: 0, 84%, 60%;
+  --border: 240, 5%, 85%;
+  --radius: 0.5rem;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
     --foreground-rgb: 255, 255, 255;
     --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
+    --background-end-rgb: 24, 24, 24;
   }
 }
 
 @layer utilities {
-  .text-balance {
+  .utility-text-balance {
     text-wrap: balance;
   }
 
-  .focus-ring {
+  .utility-focus-ring {
     outline: none;
     box-shadow: 0 0 0 3px rgba(255, 152, 0, 0.5);
+  }
+
+  .utility-skeleton {
+    @apply animate-pulse;
+    * {
+      pointer-events: none;
+    }
+    .text-placeholder {
+      @apply bg-foreground/20 rounded-md text-transparent;
+    }
   }
 }
 
 @layer base {
-  :root {
-    --background: 240 10% 98%;
-    --foreground: 240 10% 10%;
-    --primary: 35 100% 60%;
-    --secondary: 240 4% 90%;
-    --accent: 220 70% 50%;
-    --destructive: 0 84% 60%;
-    --border: 240 5% 85%;
-    --radius: 0.5rem;
-  }
   .dark {
     --background: 240 10% 15%;
     --foreground: 240 10% 95%;
@@ -48,35 +54,29 @@
   }
 
   body {
-    @apply bg-background text-foreground;
+    @apply bg-[rgb(var(--background-start-rgb))] text-[rgb(var(--foreground-rgb))];
+    font-family: 'geist', sans-serif;
   }
 
   @font-face {
-    font-family: "geist";
+    font-family: 'geist';
     font-style: normal;
     font-weight: 100 900;
     src: url('/fonts/geist.woff2') format('woff2');
+    font-display: swap;
   }
 
   @font-face {
-    font-family: "geist-mono";
+    font-family: 'geist-mono';
     font-style: normal;
     font-weight: 100 900;
     src: url('/fonts/geist-mono.woff2') format('woff2');
-  }
-
-  .skeleton {
-    @apply animate-pulse;
-    * {
-      pointer-events: none;
-    }
-    .text-placeholder {
-      @apply bg-foreground/20 rounded-md text-transparent;
-    }
+    font-display: swap;
   }
 
   .btn {
-    @apply bg-[#FFB74D] text-[#8B4513] font-semibold rounded-lg transition-shadow shadow-md hover:bg-[#FFA726] focus:ring-2 focus:ring-offset-2 focus:ring-[#FF9800];
+    @apply bg-[#FFB74D] text-[#8B4513] font-semibold rounded-lg transition-shadow shadow-md 
+      hover:bg-[#FFA726] focus:ring-2 focus:ring-offset-2 focus:ring-[#FF9800];
   }
 
   .btn-lg {
@@ -84,6 +84,7 @@
   }
 
   .input {
-    @apply bg-[#FFF3E0] text-[#8B4513] border-[#FFB74D] rounded-lg p-4 border-2 outline-none focus:border-[#FF9800] focus:ring-2 focus:ring-[#FF9800];
+    @apply bg-[#FFF3E0] text-[#8B4513] border-[#FFB74D] rounded-lg p-4 border-2 outline-none 
+      focus:border-[#FF9800] focus:ring-2 focus:ring-[#FF9800];
   }
 }

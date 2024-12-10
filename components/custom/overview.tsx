@@ -8,8 +8,8 @@ export const Overview = () => {
   const [fontSize, setFontSize] = useState(18); // Dynamic font size control
   
   return (
-    <main className="relative max-w-screen-md p-4 md:p-6 mx-auto flex min-h-screen overflow-y-auto">
-      {/* Main flex container, matching KleverAssistant style */}
+    <div className="relative max-w-screen-md p-4 md:p-6 mx-auto flex min-h-screen overflow-y-auto">
+      {/* Main flex container without using <main> */}
       <div className="w-full bg-gradient-to-br from-yellow-300 via-orange-200 to-red-200 p-4">
         <div className="max-w-4xl mx-auto bg-white rounded-lg shadow-xl overflow-hidden">
           <motion.div
@@ -66,7 +66,7 @@ export const Overview = () => {
           </motion.div>
         </div>
       </div>
-    </main>
+    </div>
   );
 };
 

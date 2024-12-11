@@ -10,6 +10,9 @@ import { useScrollToBottom } from "@/components/custom/use-scroll-to-bottom";
 import { MultimodalInput } from "./multimodal-input";
 import { Overview } from "./overview";
 
+// Chat component
+// The chat component is a container for the chat messages and the input area.
+// It is responsible for rendering the messages and the input area.
 export function Chat({
   id,
   initialMessages,
@@ -17,7 +20,8 @@ export function Chat({
   id: string;
   initialMessages: Array<Message>;
 }) {
-  // Use AI's useChat hook to manage chat state
+  // The useChat hook is used to manage the chat state.
+  // It provides methods for sending messages and handling the chat lifecycle.
   const { messages, handleSubmit, input, setInput, append, isLoading, stop } =
     useChat({
       body: { id },
@@ -27,25 +31,23 @@ export function Chat({
       },
     });
 
-  // Scrolling behavior hooks to ensure new messages are visible
+    // The useScrollToBottom hook is used to scroll the messages container to the bottom when new messages are added.
   const [messagesContainerRef, messagesEndRef] =
     useScrollToBottom<HTMLDivElement>();
 
-  // Attachments state to manage multimodal inputs
+    // The attachments state is used to store the attachments added to the input area.
   const [attachments, setAttachments] = useState<Array<Attachment>>([]);
 
   return (
-    <div className="flex flex-row justify-center pb-4 md:pb-8 h-dvh bg-background">
-      <div className="flex flex-col justify-between items-center gap-4">
-        {/* Message container */}
+    <div className="flex flex-col justify-center items-center h-full bg-gradient-to-b from-[#FFF3E0] via-[#FFEBCC] to-[#FFDB99] px-4 py-6 md:py-8">
+      {/* Chat Container */}
+      <div className="flex flex-col w-full max-w-3xl gap-4 h-full">
+        {/* Messages Area */}
         <div
           ref={messagesContainerRef}
-          className="flex flex-col gap-4 h-full w-dvw items-center overflow-y-scroll"
+          className="flex-1 flex flex-col gap-4 overflow-y-auto p-4 bg-white rounded-lg shadow-md"
         >
-          {/* Show overview if no messages */}
           {messages.length === 0 && <Overview />}
-
-          {/* Render each message with associated content */}
           {messages.map((message) => (
             <PreviewMessage
               key={message.id}
@@ -55,16 +57,17 @@ export function Chat({
               toolInvocations={message.toolInvocations}
             />
           ))}
-
-          {/* Placeholder to ensure scrolling */}
-          <div
-            ref={messagesEndRef}
-            className="shrink-0 min-w-[24px] min-h-[24px]"
-          />
+          <div ref={messagesEndRef} className="h-[1px]" />
         </div>
 
-        {/* Multimodal input form for handling user input */}
-        <form className="flex flex-row gap-2 relative items-end w-full md:max-w-[500px] max-w-[calc(100dvw-32px)] px-4 md:px-0">
+        {/* Input Area */}
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            handleSubmit();
+          }}
+          className="flex items-end gap-2"
+        >
           <MultimodalInput
             input={input}
             setInput={setInput}

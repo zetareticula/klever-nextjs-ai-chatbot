@@ -10,15 +10,15 @@ const NonMemoizedMarkdown = ({ children }: { children: string }) => {
       return !inline && match ? (
         <pre
           {...props}
-          className={`${className} text-sm w-[80vw] md:max-w-[500px] overflow-x-scroll bg-zinc-100 p-3 rounded-lg mt-2 dark:bg-zinc-800`}
+          className={`${className} text-sm w-[80vw] md:max-w-[500px] overflow-x-scroll bg-gradient-to-r from-[#FFECD1] via-[#FFDBB5] to-[#FFB74D] p-3 rounded-lg mt-2 text-[#8B4513]`}
         >
-          <code className={`language-${match[1]} text-zinc-900 dark:text-zinc-50`}>
+          <code className={`language-${match[1]} text-[#8B4513]`}>
             {children}
           </code>
         </pre>
       ) : (
         <code
-          className={`text-sm bg-zinc-100 dark:bg-zinc-800 py-0.5 px-1 rounded-md text-zinc-900 dark:text-zinc-50 ${className}`}
+          className={`text-sm bg-[#FFECD1] py-0.5 px-1 rounded-md text-[#8B4513] ${className}`}
           {...props}
         >
           {children}
@@ -27,28 +27,34 @@ const NonMemoizedMarkdown = ({ children }: { children: string }) => {
     },
     ol: ({ node, children, ...props }: any) => {
       return (
-        <ol className="list-decimal list-outside ml-4 text-zinc-900 dark:text-zinc-50" {...props}>
+        <ol
+          className="list-decimal list-outside ml-4 text-[#8B4513]"
+          {...props}
+        >
           {children}
         </ol>
       );
     },
     li: ({ node, children, ...props }: any) => {
       return (
-        <li className="py-1 text-zinc-900 dark:text-zinc-50" {...props}>
+        <li className="py-1 text-[#8B4513]" {...props}>
           {children}
         </li>
       );
     },
     ul: ({ node, children, ...props }: any) => {
       return (
-        <ul className="list-disc list-outside ml-4 text-zinc-900 dark:text-zinc-50" {...props}>
+        <ul
+          className="list-disc list-outside ml-4 text-[#8B4513]"
+          {...props}
+        >
           {children}
         </ul>
       );
     },
     strong: ({ node, children, ...props }: any) => {
       return (
-        <strong className="font-semibold text-zinc-900 dark:text-zinc-50" {...props}>
+        <strong className="font-semibold text-[#8B4513]" {...props}>
           {children}
         </strong>
       );
@@ -56,7 +62,7 @@ const NonMemoizedMarkdown = ({ children }: { children: string }) => {
     a: ({ node, children, ...props }: any) => {
       return (
         <Link
-          className="text-blue-500 hover:underline dark:text-blue-400"
+          className="text-[#FF9800] hover:underline"
           target="_blank"
           rel="noreferrer"
           {...props}

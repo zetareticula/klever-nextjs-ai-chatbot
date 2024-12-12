@@ -10,15 +10,15 @@ const NonMemoizedMarkdown = ({ children }: { children: string }) => {
       return !inline && match ? (
         <pre
           {...props}
-          className={`${className} text-sm w-[80vw] md:max-w-[500px] overflow-x-scroll bg-gradient-to-r from-[#FFECD1] via-[#FFDBB5] to-[#FFB74D] p-3 rounded-lg mt-2 text-[#8B4513]`}
+          className={`${className} text-sm w-[80vw] md:max-w-[500px] overflow-x-scroll bg-gradient-to-r from-[#FFECD1] via-[#FFDBB5] to-[#FFB74D] p-3 rounded-lg mt-2 text-[#3C2F2F]`}
         >
-          <code className={`language-${match[1]} text-[#8B4513]`}>
+          <code className={`language-${match[1]} text-[#3C2F2F]`}>
             {children}
           </code>
         </pre>
       ) : (
         <code
-          className={`text-sm bg-[#FFECD1] py-0.5 px-1 rounded-md text-[#8B4513] ${className}`}
+          className={`text-sm bg-[#FFECD1] py-0.5 px-1 rounded-md text-[#3C2F2F] ${className}`}
           {...props}
         >
           {children}
@@ -28,7 +28,7 @@ const NonMemoizedMarkdown = ({ children }: { children: string }) => {
     ol: ({ node, children, ...props }: any) => {
       return (
         <ol
-          className="list-decimal list-outside ml-4 text-[#8B4513]"
+          className="list-decimal list-outside ml-4 text-[#3C2F2F]"
           {...props}
         >
           {children}
@@ -37,7 +37,7 @@ const NonMemoizedMarkdown = ({ children }: { children: string }) => {
     },
     li: ({ node, children, ...props }: any) => {
       return (
-        <li className="py-1 text-[#8B4513]" {...props}>
+        <li className="py-1 text-[#3C2F2F]" {...props}>
           {children}
         </li>
       );
@@ -45,7 +45,7 @@ const NonMemoizedMarkdown = ({ children }: { children: string }) => {
     ul: ({ node, children, ...props }: any) => {
       return (
         <ul
-          className="list-disc list-outside ml-4 text-[#8B4513]"
+          className="list-disc list-outside ml-4 text-[#3C2F2F]"
           {...props}
         >
           {children}
@@ -54,7 +54,7 @@ const NonMemoizedMarkdown = ({ children }: { children: string }) => {
     },
     strong: ({ node, children, ...props }: any) => {
       return (
-        <strong className="font-semibold text-[#8B4513]" {...props}>
+        <strong className="font-semibold text-[#3C2F2F]" {...props}>
           {children}
         </strong>
       );

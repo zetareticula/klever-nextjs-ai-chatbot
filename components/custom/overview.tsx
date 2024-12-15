@@ -37,7 +37,7 @@ export const Overview = () => {
             </div>
 
             {/* Flex container for icons */}
-            <p className="flex flex-row justify-center gap-4 items-center text-orange-800" style={{ fontSize: `${fontSize}px` }}>
+            <p className="flex flex-row justify-center gap-4 items-center text-orange-800" style={{ fontSize: `${Size}px` }}>
               <VercelIcon />
               <span>+</span>
               <MessageIcon />

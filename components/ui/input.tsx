@@ -4,7 +4,12 @@ import { cn } from "@/lib/utils";
 export interface InputProps
   extends React.InputHTMLAttributes<HTMLInputElement> {}
 
+
+  // Input component
 const Input = React.forwardRef<HTMLInputElement, InputProps>(
+  // The input component is a simple wrapper around the native input element.
+  //className: string, type: string, props: any, ref: any
+  //We envision a JSON object with the following properties: className, type, props, and ref.
   ({ className, type = "text", ...props }, ref) => (
     <input
       type={type}

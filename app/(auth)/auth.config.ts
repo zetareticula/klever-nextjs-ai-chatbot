@@ -1,6 +1,4 @@
 import { NextAuthConfig } from "next-auth";
-import { Response } from "next-http";
-import { URL } from "url";
 
 export const authConfig = {
   pages: {

@@ -1,7 +1,7 @@
 import type { Config } from "tailwindcss";
 
 const config: Config = {
-  darkMode: ["class"],
+  darkMode: ["class"], // Enables dark mode using the "class" strategy.
   content: [
     "./pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./components/**/*.{js,ts,jsx,tsx,mdx}",
@@ -9,10 +9,13 @@ const config: Config = {
   ],
   theme: {
     fontFamily: {
-      sans: ["geist"],
-      mono: ["geist-mono"],
+      sans: ["Aptos", "sans-serif"], // Updated to use Aptos as the default sans font.
+      mono: ["geist-mono"], // Retained for mono font as it's unrelated.
     },
     extend: {
+      fontSize: {
+        base: "16px", // Default font size is set to 16px.
+      },
       borderRadius: {
         lg: "var(--radius)",
         md: "calc(var(--radius) - 2px)",
@@ -63,6 +66,6 @@ const config: Config = {
     },
   },
   plugins: [require("tailwindcss-animate")],
-  safelist: ["w-32", "w-44", "w-52"],
+  safelist: ["w-32", "w-44", "w-52"], // Safelisted classes for specific widths.
 };
 export default config;

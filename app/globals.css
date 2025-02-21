@@ -1,24 +1,55 @@
 @import 'tailwindcss/base';
 @import 'tailwindcss/components';
-@tailwind utilities;
+@import 'tailwindcss/utilities';
 
 :root {
-  --foreground-rgb: 64, 64, 64; /* Dark gray font color */
-  --background-start-rgb: 245, 245, 235; /* Beige background start */
-  --background-end-rgb: 245, 245, 235; /* Beige background end */
-  --primary: 35, 100%, 60%;
-  --secondary: 240, 4%, 90%;
-  --accent: 220, 70%, 50%;
-  --destructive: 0, 84%, 60%;
-  --border: 220, 10%, 80%;
+  --foreground: rgb(64, 64, 64); /* Dark gray font */
+  --background: rgb(245, 245, 235); /* Beige background */
+  --primary: hsl(35, 100%, 60%);
+  --secondary: hsl(240, 4%, 90%);
+  --accent: hsl(220, 70%, 50%);
+  --destructive: hsl(0, 84%, 60%);
+  --border: hsl(220, 10%, 80%);
   --radius: 0.5rem;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --foreground-rgb: 200, 200, 200; /* Light gray font for dark mode */
-    --background-start-rgb: 34, 34, 34; /* Dark beige */
-    --background-end-rgb: 24, 24, 24; /* Darker beige */
+    --foreground: rgb(200, 200, 200);
+    --background: rgb(34, 34, 34);
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-[var(--background)] text-[var(--foreground)];
+    font-family: 'Aptos', sans-serif;
+  }
+
+  @font-face {
+    font-family: 'Aptos';
+    font-style: normal;
+    font-weight: 100 900;
+    src: url('/fonts/Aptos.woff2') format('woff2');
+    font-display: swap;
+  }
+
+  .btn {
+    @apply bg-[#FFB74D] text-[#8B4513] font-semibold rounded-lg transition-shadow shadow-md 
+      hover:bg-[#FFA726] focus:ring-2 focus:ring-offset-2 focus:ring-[#FF9800];
+  }
+
+  .btn-lg {
+    @apply text-xl px-6 py-3;
+  }
+
+  .input {
+    @apply bg-[#F5F5EB] text-[#404040] font-sans rounded-lg p-4 border-2 border-[#DCDCD2] outline-none 
+      focus:border-[#FF9800] focus:ring-2 focus:ring-[#FF9800];
   }
 }
 
@@ -40,45 +71,5 @@
     .text-placeholder {
       @apply bg-foreground/20 rounded-md text-transparent;
     }
-  }
-}
-
-@layer base {
-  .dark {
-    --background: 34 10% 15%;
-    --foreground: 240 10% 95%;
-  }
-
-  * {
-    @apply border-border;
-  }
-
-  body {
-    @apply bg-[rgb(var(--background-start-rgb))] text-[rgb(var(--foreground-rgb))];
-    font-family: 'Aptos', sans-serif; /* Set Aptos as font */
-  }
-
-  @font-face {
-    font-family: 'Aptos';
-    font-style: normal;
-    font-weight: 100 900;
-    src: url('/fonts/Aptos.woff2') format('woff2'); /* Include the Aptos font */
-    font-display: swap;
-  }
-
-  .btn {
-    @apply bg-[#FFB74D] text-[#8B4513] font-semibold rounded-lg transition-shadow shadow-md 
-      hover:bg-[#FFA726] focus:ring-2 focus:ring-offset-2 focus:ring-[#FF9800];
-  }
-
-  .btn-lg {
-    @apply text-xl px-6 py-3;
-  }
-
-  .input {
-    @apply bg-[rgb(245,245,235)] /* Beige query box */ text-[rgb(64,64,64)] /* Dark gray font */
-      font-family: 'Aptos', sans-serif; /* Use Aptos font for query box */
-      border-[rgb(220,220,210)] rounded-lg p-4 border-2 outline-none 
-      focus:border-[#FF9800] focus:ring-2 focus:ring-[#FF9800];
   }
 }

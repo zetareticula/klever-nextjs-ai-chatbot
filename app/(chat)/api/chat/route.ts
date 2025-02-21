@@ -8,7 +8,9 @@ import { deleteChatById, getChatById, saveChat } from "@/db/queries";
 
 // This route is responsible for handling the POST request to the chat API.
 export async function POST(request: Request) {
-  //
+  //The request body contains the chat ID and messages
+  //The chat ID is used to identify the chat in the database
+  //The messages are the messages exchanged between the user and the chatbot
   const { id, messages }: { id: string; messages: Array<Message> } =
     await request.json();
 
@@ -21,11 +23,11 @@ export async function POST(request: Request) {
   }
 
   // If the user is authenticated, get the chat from the database
-  const coreMessages = convertToCoreMessages(messages);
+  const coreMessages = convertToCoreMessages(messages); //assign the messages to coreMessages
 
   // Get the chat from the database
   const result = await streamText({
-    model: customModel,
+    model: customModel, ///assign the customModel to the model
     system: "You are an artificial intelligence chatbot named Klever, designed to help seniors with day-to-day queries in a friendly and simplified manner. Your responses should be concise and focused on the main points, summarizing information in a clear and engaging way. Please acknowledge the user's challenges and provide patient and supportive responses. Avoid overwhelming the user with excessive information and only include relevant links when necessary. If you don't know the answer, kindly inform the user and suggest a simple next step they can take to find help.",
     messages: coreMessages,
     maxSteps: 5,

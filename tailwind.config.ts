@@ -62,10 +62,12 @@ const config: Config = {
           "4": "hsl(var(--chart-4))",
           "5": "hsl(var(--chart-5))",
         },
+        customBorder: "#DCDCD2", // Fix for the border color issue
       },
     },
   },
   plugins: [require("tailwindcss-animate")],
   safelist: ["w-32", "w-44", "w-52"], // Safelisted classes for specific widths.
 };
+
 export default config;

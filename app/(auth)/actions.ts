@@ -2,7 +2,7 @@
 
 import { z } from "zod";
 
-import { createUser, getUser } from "@/db/queries";
+import { createUser, getUser } from "@/db/queries"; //import the createUser and getUser functions from the db/queries module
 
 import { signIn } from "./auth";
 

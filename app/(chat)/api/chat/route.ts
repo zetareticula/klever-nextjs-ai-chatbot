@@ -8,6 +8,7 @@ import { deleteChatById, getChatById, saveChat } from "@/db/queries";
 
 // This route is responsible for handling the POST request to the chat API.
 export async function POST(request: Request) {
+  //
   const { id, messages }: { id: string; messages: Array<Message> } =
     await request.json();
 

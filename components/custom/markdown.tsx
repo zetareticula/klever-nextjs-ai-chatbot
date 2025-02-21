@@ -3,6 +3,10 @@ import React, { memo } from "react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 
+
+// Markdown component for NonMemoizedMarkdown which is a memoized version of the Markdown component.
+// NonMemoizedMarkdown is comprised of components that are used to render markdown content.
+//components is an object that contains the components used to render the content.
 const NonMemoizedMarkdown = ({ children }: { children: string }) => {
   const components = {
     code: ({ node, inline, className, children, ...props }: any) => {

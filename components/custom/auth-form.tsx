@@ -1,7 +1,22 @@
 import { Input } from "../ui/input";
 import { Label } from "../ui/label";
 
-//
+//AuthForm component
+//The AuthForm component is a form used for authentication.
+//It is used to collect user credentials for authentication.
+//It is used in the Login and Register components.
+
+//Props:
+//action: string - the form action
+//children: React.ReactNode - the form children
+//defaultEmail?: string - the default email address
+
+//State:
+//none
+
+//Returns:
+//The AuthForm component
+
 export function AuthForm({
   action,
   children,

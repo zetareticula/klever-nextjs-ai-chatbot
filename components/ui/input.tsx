@@ -1,6 +1,8 @@
 import React from "react";
 import { cn } from "@/lib/utils";
 
+//InputProps is an interface that extends the React.InputHTMLAttributes interface.
+//It is used to define the props for the Input component.
 export interface InputProps
   extends React.InputHTMLAttributes<HTMLInputElement> {}
 

@@ -10,6 +10,8 @@ import { SubmitButton } from "@/components/custom/submit-button";
 
 import { login, LoginActionState } from "../actions";
 
+// Login page
+// The login page is used to authenticate users.
 export default function Page() {
   const router = useRouter();
 

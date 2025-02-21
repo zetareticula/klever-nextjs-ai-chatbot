@@ -2,27 +2,22 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useActionState, useEffect, useState } from "react";
+import { useEffect, useState } from "react"; // Remove useActionState from react import
 import { toast } from "sonner";
 
 import { AuthForm } from "@/components/custom/auth-form";
 import { SubmitButton } from "@/components/custom/submit-button";
 
 import { login, LoginActionState } from "../actions";
+// If you have a custom useActionState hook, import it from its proper location
+// import { useActionState } from '@/hooks/useActionState'; // Add this if you have the hook
 
-// Login page
-// The login page is used to authenticate users.
 export default function Page() {
   const router = useRouter();
-
   const [email, setEmail] = useState("");
-
-  const [state, formAction] = useActionState<LoginActionState, FormData>(
-    login,
-    {
-      status: "idle",
-    },
-  );
+  
+  // If you don't have useActionState hook, you can use useState instead
+  const [state, setState] = useState<LoginActionState>({ status: "idle" });
 
   useEffect(() => {
     if (state.status === "failed") {
@@ -34,9 +29,15 @@ export default function Page() {
     }
   }, [state.status, router]);
 
-  const handleSubmit = (formData: FormData) => {
+  const handleSubmit = async (formData: FormData) => {
     setEmail(formData.get("email") as string);
-    formAction(formData);
+    try {
+      // Assuming login is an async function
+      const result = await login(formData);
+      setState(result);
+    } catch (error) {
+      setState({ status: "failed" });
+    }
   };
 
   return (

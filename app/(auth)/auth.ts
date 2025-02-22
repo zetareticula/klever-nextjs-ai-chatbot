@@ -1,16 +1,10 @@
 import { compare } from "bcrypt-ts";
-
 import NextAuth, { User, Session, AuthOptions } from "next-auth";
-
-import CredentialsProvider from "next-auth/providers/credentials";
-
 import { JWT } from "next-auth/jwt";
-
+import CredentialsProvider from "next-auth/providers/credentials";
 import { getUser } from "@/db/queries";
-
 import { authConfig } from "./auth.config";
 
-// Extended types for better type safety
 interface ExtendedUser extends User {
   id: string;
   email: string;
@@ -26,7 +20,6 @@ interface Credentials {
   password: string;
 }
 
-// Auth configuration with proper types
 const authOptions: AuthOptions = {
   ...authConfig,
   providers: [
@@ -61,7 +54,6 @@ const authOptions: AuthOptions = {
             return null;
           }
 
-          // Return user without password
           const { password, ...userWithoutPassword } = user;
           return userWithoutPassword as ExtendedUser;
           
@@ -75,7 +67,6 @@ const authOptions: AuthOptions = {
   callbacks: {
     async jwt({ token, user }: { token: JWT; user?: ExtendedUser }): Promise<JWT> {
       if (user) {
-        // Add user info to token
         token.id = user.id;
         token.email = user.email;
       }
@@ -83,7 +74,6 @@ const authOptions: AuthOptions = {
     },
     async session({ session, token }: { session: ExtendedSession; token: JWT }): Promise<ExtendedSession> {
       if (session.user) {
-        // Add user info from token to session
         session.user.id = token.id as string;
         session.user.email = token.email as string;
       }
@@ -100,7 +90,6 @@ const authOptions: AuthOptions = {
   debug: process.env.NODE_ENV === "development",
 };
 
-// Export auth handlers and helpers
 export const {
   handlers: { GET, POST },
   auth,
@@ -108,5 +97,4 @@ export const {
   signOut,
 } = NextAuth(authOptions);
 
-// Export types for use in other files
 export type { ExtendedUser, ExtendedSession, Credentials };

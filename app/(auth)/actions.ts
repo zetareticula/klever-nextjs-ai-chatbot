@@ -1,18 +1,9 @@
 "use server";
 
 import { z } from "zod";
-
+import { signIn } from "./auth";
 import { createUser, getUser } from "@/db/queries";
 
-import { signIn } from "./auth";
-
-// Validation schema for authentication forms
-const authFormSchema = z.object({
-  email: z.string().email("Invalid email address"),
-  password: z.string().min(6, "Password must be at least 6 characters"),
-});
-
-// Types for action states
 export type ActionStatus = 
   | "idle" 
   | "in_progress" 
@@ -32,7 +23,11 @@ export interface RegisterActionState {
   message?: string;
 }
 
-// Helper function to handle form data validation
+const authFormSchema = z.object({
+  email: z.string().email("Invalid email address"),
+  password: z.string().min(6, "Password must be at least 6 characters"),
+});
+
 const validateFormData = (formData: FormData) => {
   return authFormSchema.parse({
     email: formData.get("email"),
@@ -40,19 +35,15 @@ const validateFormData = (formData: FormData) => {
   });
 };
 
-// Login action
 export async function login(
   prevState: ActionState,
   formData: FormData,
 ): Promise<ActionState> {
   try {
-    // Set in_progress state
     const inProgress: ActionState = { status: "in_progress" };
     
-    // Validate form data
     const validatedData = validateFormData(formData);
 
-    // Attempt sign in
     const result = await signIn("credentials", {
       email: validatedData.email,
       password: validatedData.password,
@@ -86,19 +77,15 @@ export async function login(
   }
 }
 
-// Register action
 export async function register(
   prevState: RegisterActionState,
   formData: FormData,
 ): Promise<RegisterActionState> {
   try {
-    // Set in_progress state
     const inProgress: RegisterActionState = { status: "in_progress" };
     
-    // Validate form data
     const validatedData = validateFormData(formData);
 
-    // Check if user exists
     const [existingUser] = await getUser(validatedData.email);
 
     if (existingUser) {
@@ -108,10 +95,8 @@ export async function register(
       };
     }
 
-    // Create new user
     await createUser(validatedData.email, validatedData.password);
 
-    // Sign in the new user
     const signInResult = await signIn("credentials", {
       email: validatedData.email,
       password: validatedData.password,

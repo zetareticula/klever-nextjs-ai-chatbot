@@ -1,9 +1,13 @@
 import { compare } from "bcrypt-ts";
+
 import NextAuth, { User, Session, AuthOptions } from "next-auth";
+
 import CredentialsProvider from "next-auth/providers/credentials";
+
 import { JWT } from "next-auth/jwt";
 
 import { getUser } from "@/db/queries";
+
 import { authConfig } from "./auth.config";
 
 // Extended types for better type safety

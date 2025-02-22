@@ -1,4 +1,5 @@
 import { NextAuthConfig } from "next-auth";
+
 import { NextResponse } from "next/server";
 
 // Define protected routes that require authentication

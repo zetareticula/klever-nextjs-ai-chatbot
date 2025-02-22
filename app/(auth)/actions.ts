@@ -1,103 +1,144 @@
 "use server";
 
 import { z } from "zod";
-
-import { createUser, getUser } from "@/db/queries"; //import the createUser and getUser functions from the db/queries module
-
+import { createUser, getUser } from "@/db/queries";
 import { signIn } from "./auth";
 
-
-// The authFormSchema is used to validate the form data.
-// It is used to validate the email and password fields.
+// Validation schema for authentication forms
 const authFormSchema = z.object({
-  email: z.string().email(),
-  password: z.string().min(6),
+  email: z.string().email("Invalid email address"),
+  password: z.string().min(6, "Password must be at least 6 characters"),
 });
 
-// The LoginActionState is used to manage the login form state.
-export interface LoginActionState {
-  status: "idle" | "in_progress" | "success" | "failed" | "invalid_data";
+// Types for action states
+export type ActionStatus = 
+  | "idle" 
+  | "in_progress" 
+  | "success" 
+  | "failed" 
+  | "invalid_data";
+
+export type RegisterStatus = ActionStatus | "user_exists";
+
+export interface ActionState {
+  status: ActionStatus;
+  message?: string;
 }
 
-// The login function is used to authenticate users.
-//it is an async function that takes the LoginActionState and FormData as arguments.
-//It returns a Promise of LoginActionState.
-// the promise is used to handle the login form state.
-export const login = async (
-  _: LoginActionState,
-  formData: FormData,
-): Promise<LoginActionState> => {
-  try {
-    const validatedData = authFormSchema.parse({
-      email: formData.get("email"),
-      password: formData.get("password"),
-    });
+export interface RegisterActionState {
+  status: RegisterStatus;
+  message?: string;
+}
 
-    //signin
-    await signIn("credentials", {
+// Helper function to handle form data validation
+const validateFormData = (formData: FormData) => {
+  return authFormSchema.parse({
+    email: formData.get("email"),
+    password: formData.get("password"),
+  });
+};
+
+// Login action
+export async function login(
+  prevState: ActionState,
+  formData: FormData,
+): Promise<ActionState> {
+  try {
+    // Set in_progress state
+    const inProgress: ActionState = { status: "in_progress" };
+    
+    // Validate form data
+    const validatedData = validateFormData(formData);
+
+    // Attempt sign in
+    const result = await signIn("credentials", {
       email: validatedData.email,
       password: validatedData.password,
       redirect: false,
     });
 
-    return { status: "success" };
-  } catch (error) {
-    if (error instanceof z.ZodError) {
-      return { status: "invalid_data" };
+    if (!result?.ok) {
+      return { 
+        status: "failed",
+        message: "Invalid credentials" 
+      };
     }
 
-    return { status: "failed" };
-  }
-};
+    return { 
+      status: "success",
+      message: "Successfully logged in" 
+    };
 
-// The RegisterActionState is used to manage the register form state.
-// It is used to handle the register form state.
-// Idle is the initial state of the register form.
-// In progress is the state when the register form is being submitted.
-// Success is the state when the register form is successfully submitted.
-// Failed is the state when the register form submission fails.
-// User exists is the state when the user already exists.
-// Invalid data is the state when the form data is invalid.
-export interface RegisterActionState {
-  status:
-    | "idle"
-    | "in_progress"
-    | "success"
-    | "failed"
-    | "user_exists"
-    | "invalid_data";
+  } catch (error) {
+    if (error instanceof z.ZodError) {
+      return { 
+        status: "invalid_data",
+        message: error.errors[0]?.message || "Invalid form data"
+      };
+    }
+
+    return { 
+      status: "failed",
+      message: error instanceof Error ? error.message : "Login failed"
+    };
+  }
 }
 
-// The register function is used to create new user accounts.
-export const register = async (
-  _: RegisterActionState,
+// Register action
+export async function register(
+  prevState: RegisterActionState,
   formData: FormData,
-): Promise<RegisterActionState> => {
+): Promise<RegisterActionState> {
   try {
-    const validatedData = authFormSchema.parse({
-      email: formData.get("email"),
-      password: formData.get("password"),
+    // Set in_progress state
+    const inProgress: RegisterActionState = { status: "in_progress" };
+    
+    // Validate form data
+    const validatedData = validateFormData(formData);
+
+    // Check if user exists
+    const [existingUser] = await getUser(validatedData.email);
+
+    if (existingUser) {
+      return { 
+        status: "user_exists",
+        message: "An account with this email already exists" 
+      };
+    }
+
+    // Create new user
+    await createUser(validatedData.email, validatedData.password);
+
+    // Sign in the new user
+    const signInResult = await signIn("credentials", {
+      email: validatedData.email,
+      password: validatedData.password,
+      redirect: false,
     });
 
-    let [user] = await getUser(validatedData.email);
-
-    if (user) {
-      return { status: "user_exists" } as RegisterActionState;
-    } else {
-      await createUser(validatedData.email, validatedData.password);
-      await signIn("credentials", {
-        email: validatedData.email,
-        password: validatedData.password,
-        redirect: false,
-      });
-
-      return { status: "success" };
+    if (!signInResult?.ok) {
+      return { 
+        status: "failed",
+        message: "Account created but failed to sign in" 
+      };
     }
+
+    return { 
+      status: "success",
+      message: "Account created successfully" 
+    };
+
   } catch (error) {
     if (error instanceof z.ZodError) {
-      return { status: "invalid_data" };
+      return { 
+        status: "invalid_data",
+        message: error.errors[0]?.message || "Invalid form data"
+      };
     }
 
-    return { status: "failed" };
+    return { 
+      status: "failed",
+      message: error instanceof Error ? error.message : "Registration failed"
+    };
   }
-};
+}

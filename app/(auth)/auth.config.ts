@@ -1,41 +1,77 @@
 import { NextAuthConfig } from "next-auth";
+import { NextResponse } from "next/server";
 
-export const authConfig = {
+// Define protected routes that require authentication
+const protectedRoutes = ["/"];
+// Define auth routes that should redirect to home if already logged in
+const authRoutes = ["/login", "/register"];
+
+export const authConfig: NextAuthConfig = {
   pages: {
     signIn: "/login",
-    newUser: "/",
+    newUser: "/register", // Changed from "/" to "/register" to match our auth.ts
+    error: "/login", // Add error page
   },
-  providers: [
-    // added later in auth.ts since it requires bcrypt which is only compatible with Node.js
-    // while this file is also used in non-Node.js environments
-  ],
+  providers: [], // Empty array as providers are added in auth.ts
   callbacks: {
     authorized({ auth, request: { nextUrl } }) {
-      let isLoggedIn = !!auth?.user;
-      let isOnChat = nextUrl.pathname.startsWith("/");
-      let isOnRegister = nextUrl.pathname.startsWith("/register");
-      let isOnLogin = nextUrl.pathname.startsWith("/login");
+      const isLoggedIn = !!auth?.user;
+      const pathname = nextUrl.pathname;
 
-      if (isLoggedIn && (isOnLogin || isOnRegister)) {
-        return Response.redirect(new URL("/", nextUrl));
+      // Helper function to check if path starts with any of the routes
+      const pathStartsWith = (routes: string[]) => 
+        routes.some(route => pathname.startsWith(route));
+
+      // Check if current path is a protected or auth route
+      const isProtectedRoute = pathStartsWith(protectedRoutes);
+      const isAuthRoute = pathStartsWith(authRoutes);
+
+      try {
+        // Redirect authenticated users trying to access auth pages to home
+        if (isLoggedIn && isAuthRoute) {
+          return NextResponse.redirect(new URL("/", nextUrl));
+        }
+
+        // Allow access to auth routes
+        if (isAuthRoute) {
+          return true;
+        }
+
+        // Protected routes require authentication
+        if (isProtectedRoute) {
+          return isLoggedIn;
+        }
+
+        // Redirect authenticated users to home if accessing unknown routes
+        if (isLoggedIn) {
+          return NextResponse.redirect(new URL("/", nextUrl));
+        }
+
+        // Allow access to all other routes
+        return true;
+      } catch (error) {
+        console.error("Authorization error:", error);
+        // Redirect to login page on error
+        return NextResponse.redirect(new URL("/login", nextUrl));
       }
-
-      if (isOnRegister || isOnLogin) {
-        return true; // Always allow access to register and login pages
-      }
-
-      if (isOnChat) {
-        if (isLoggedIn) return true;
-        return false; // Redirect unauthenticated users to login page
-      }
-
-      if (isLoggedIn) {
-        return Response.redirect(new URL("/", nextUrl));
-      }
-
-      return true;
+    },
+    // Add JWT and Session callback types (these will be implemented in auth.ts)
+    jwt: async ({ token, user }) => {
+      return token;
+    },
+    session: async ({ session, token }) => {
+      return session;
     },
   },
-} satisfies NextAuthConfig;
+  session: {
+    strategy: "jwt",
+    maxAge: 30 * 24 * 60 * 60, // 30 days
+    updateAge: 24 * 60 * 60, // 24 hours
+  },
+  secret: process.env.NEXTAUTH_SECRET,
+  debug: process.env.NODE_ENV === "development",
+};
 
+// Export config types
+export type AuthConfig = typeof authConfig;
 

@@ -2,42 +2,39 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react"; // Remove useActionState from react import
+import { useFormState, useFormStatus } from "react-dom";
+import { useEffect, useState } from "react";
 import { toast } from "sonner";
 
 import { AuthForm } from "@/components/custom/auth-form";
 import { SubmitButton } from "@/components/custom/submit-button";
 
-import { login, LoginActionState } from "../actions";
-// If you have a custom useActionState hook, import it from its proper location
-// import { useActionState } from '@/hooks/useActionState'; // Add this if you have the hook
+import { login } from "../actions";
 
 export default function Page() {
   const router = useRouter();
   const [email, setEmail] = useState("");
   
-  // If you don't have useActionState hook, you can use useState instead
-  const [state, setState] = useState<LoginActionState>({ status: "idle" });
+  const initialState = {
+    status: "idle",
+    message: null
+  };
+
+  const [state, formAction] = useFormState(login, initialState);
 
   useEffect(() => {
     if (state.status === "failed") {
-      toast.error("Invalid credentials!");
+      toast.error(state.message || "Invalid credentials!");
     } else if (state.status === "invalid_data") {
-      toast.error("Failed validating your submission!");
+      toast.error(state.message || "Failed validating your submission!");
     } else if (state.status === "success") {
       router.refresh();
     }
   }, [state.status, router]);
 
-  const handleSubmit = async (formData: FormData) => {
+  const handleSubmit = (formData: FormData) => {
     setEmail(formData.get("email") as string);
-    try {
-      // Assuming login is an async function
-      const result = await login(formData);
-      setState(result);
-    } catch (error) {
-      setState({ status: "failed" });
-    }
+    formAction(formData);
   };
 
   return (

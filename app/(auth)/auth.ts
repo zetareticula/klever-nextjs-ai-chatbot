@@ -1,8 +1,13 @@
 import { compare } from "bcrypt-ts";
+
 import NextAuth, { User, Session, AuthOptions } from "next-auth";
+
 import { JWT } from "next-auth/jwt";
+
 import CredentialsProvider from "next-auth/providers/credentials";
+
 import { getUser } from "@/db/queries";
+
 import { authConfig } from "./auth.config";
 
 interface ExtendedUser extends User {

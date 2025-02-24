@@ -1,5 +1,8 @@
-import { NextAuthConfig } from "next-auth";
+
 import { NextResponse } from "next/server";
+
+import { NextAuthConfig } from "next-auth";
+
 
 const protectedRoutes = ["/"];
 const authRoutes = ["/login", "/register"];

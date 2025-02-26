@@ -1,12 +1,13 @@
-'use client';
+'use client'
 
 import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+
 import { toast } from "sonner";
+import { SubmitButton } from "@/components/custom/submit-button";
 import { useActionState } from "@/lib/hooks";
 import { AuthForm } from "@/components/custom/auth-form";
-import { SubmitButton } from "@/components/custom/submit-button";
 import { register, RegisterActionState } from "../actions";
 
 export default function Page() {

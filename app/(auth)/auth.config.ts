@@ -1,6 +1,5 @@
 
 import { NextResponse } from "next/server";
-
 import { NextAuthConfig } from "next-auth";
 
 

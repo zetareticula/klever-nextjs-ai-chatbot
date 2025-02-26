@@ -1,11 +1,8 @@
 "use client";
 
-
 import Link from "next/link";
-
-import { useEffect, useState } from "react";
-
 import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 import { useFormState, useFormStatus } from "react-dom";
 
 import { toast } from "sonner";
@@ -15,6 +12,8 @@ import { SubmitButton } from "@/components/custom/submit-button";
 
 import { login } from "../actions";
 
+
+
 export default function Page() {
   const router = useRouter();
   const [email, setEmail] = useState("");
@@ -23,6 +22,8 @@ export default function Page() {
     status: "idle",
     message: null
   };
+
+  
 
   const [state, formAction] = useFormState(login, initialState);
 
@@ -34,7 +35,7 @@ export default function Page() {
     } else if (state.status === "success") {
       router.refresh();
     }
-  }, [state.status, router]);
+  }, [state.status, state.message, router]);
 
   const handleSubmit = (formData: FormData) => {
     setEmail(formData.get("email") as string);

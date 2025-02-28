@@ -31,13 +31,20 @@ const authOptions = {
         email: { label: "Email", type: "email" },
         password: { label: "Password", type: "password" }
       },
-      async authorize(credentials: Credentials | undefined): Promise<ExtendedUser | null> {
+      async authorize(credentials, req): Promise<ExtendedUser | null> {
         try {
-          if (!credentials?.email || !credentials?.password) {
+          if (!credentials) {
             throw new Error("Missing credentials");
           }
 
-          const users = await getUser(credentials.email);
+          // Typecast credentials to enforce structure
+          const { email, password } = credentials as Credentials;
+
+          if (!email || !password) {
+            throw new Error("Missing email or password");
+          }
+
+          const users = await getUser(email);
           
           if (users.length === 0) {
             return null;
@@ -49,13 +56,13 @@ const authOptions = {
             throw new Error("Invalid user data");
           }
 
-          const passwordsMatch = await compare(credentials.password, user.password);
+          const passwordsMatch = await compare(password, user.password);
 
           if (!passwordsMatch) {
             return null;
           }
 
-          const { password, ...userWithoutPassword } = user;
+          const { password: _, ...userWithoutPassword } = user;
           return userWithoutPassword as ExtendedUser;
           
         } catch (error) {

@@ -1,16 +1,18 @@
 "use client";
 
+// External library imports (React, Next.js, etc.)
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 
+// Internal imports (components, lib, actions)
 import { AuthForm } from "@/components/custom/auth-form";
 import { SubmitButton } from "@/components/custom/submit-button";
 import { useActionState } from "@/lib/hooks";
 import { register, RegisterActionState } from "../actions";
 
+// Component definition
 export default function Page() {
   const router = useRouter();
   const [email, setEmail] = useState("");

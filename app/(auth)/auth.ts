@@ -73,9 +73,9 @@ const authOptions = {
     }),
   ],
   callbacks: {
-    async jwt({ token, user }: { token: JWT; user?: ExtendedUser }): Promise<JWT> {
+    async jwt({ token, user }: { token: JWT; user?: User | AdapterUser }): Promise<JWT> {
       if (user) {
-        token.id = user.id;
+        token.id = (user as ExtendedUser).id ?? "";
         token.email = user.email;
       }
       return token;

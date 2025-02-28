@@ -1,10 +1,9 @@
 import { compare } from "bcrypt-ts";
-import NextAuth, { User, Session, AuthOptions } from "next-auth";
+import NextAuth, { User, Session } from "next-auth";
 import { JWT } from "next-auth/jwt";
 import CredentialsProvider from "next-auth/providers/credentials";
 
 import { getUser } from "@/db/queries";
-
 import { authConfig } from "./auth.config";
 
 interface ExtendedUser extends User {
@@ -22,7 +21,7 @@ interface Credentials {
   password: string;
 }
 
-const authOptions: AuthOptions = {
+const authOptions = {
   ...authConfig,
   providers: [
     CredentialsProvider({
@@ -92,11 +91,9 @@ const authOptions: AuthOptions = {
   debug: process.env.NODE_ENV === "development",
 };
 
-export const {
-  handlers: { GET, POST },
-  auth,
-  signIn,
-  signOut,
-} = NextAuth(authOptions);
+// Initialize authentication
+const { handlers, auth, signIn, signOut } = NextAuth(authOptions);
 
+export const { GET, POST } = handlers;
+export { auth, signIn, signOut };
 export type { ExtendedUser, ExtendedSession, Credentials };

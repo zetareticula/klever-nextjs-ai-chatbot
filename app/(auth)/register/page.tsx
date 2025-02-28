@@ -1,17 +1,14 @@
 "use client";
 
 import { useEffect, useState } from "react";
-
-import Link from "next/link";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 import { toast } from "sonner";
 
 import { AuthForm } from "@/components/custom/auth-form";
 import { SubmitButton } from "@/components/custom/submit-button";
-
 import { useActionState } from "@/lib/hooks";
-import { register, RegisterActionState } from "../actions";
-
+import { register, RegisterActionState } from "../actions"; 
 
 export default function Page() {
   const router = useRouter();

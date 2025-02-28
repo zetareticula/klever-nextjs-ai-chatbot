@@ -95,5 +95,5 @@ const authInstance = NextAuth(authOptions);
 
 export const GET = authInstance.handlers.GET;
 export const POST = authInstance.handlers.POST;
-export { authInstance as auth, signIn, signOut };
+export { authInstance as auth };
 export type { ExtendedUser, ExtendedSession, Credentials };

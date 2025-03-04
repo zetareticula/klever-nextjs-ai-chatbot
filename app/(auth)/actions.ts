@@ -1,13 +1,7 @@
 "use server";
 import { z } from "zod";
-
+import { signIn } from "next-auth/react"; // Ensure correct import from NextAuth
 import { createUser, getUser } from "@/db/queries";
-
-
-
-import { signIn } from "./auth";
-
-
 
 export type ActionStatus = 
   | "idle" 
@@ -45,8 +39,6 @@ export async function login(
   formData: FormData,
 ): Promise<ActionState> {
   try {
-    const inProgress: ActionState = { status: "in_progress" };
-    
     const validatedData = validateFormData(formData);
 
     const result = await signIn("credentials", {
@@ -87,8 +79,6 @@ export async function register(
   formData: FormData,
 ): Promise<RegisterActionState> {
   try {
-    const inProgress: RegisterActionState = { status: "in_progress" };
-    
     const validatedData = validateFormData(formData);
 
     const [existingUser] = await getUser(validatedData.email);
@@ -129,8 +119,8 @@ export async function register(
     }
 
     return { 
-      status: "failed",
-      message: error instanceof Error ? error.message : "Registration failed"
+        status: "failed",
+        message: error instanceof Error ? error.message : "Registration failed"
     };
   }
 }

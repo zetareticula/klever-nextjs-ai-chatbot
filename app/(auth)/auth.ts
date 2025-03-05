@@ -1,10 +1,10 @@
 import { compare } from "bcrypt-ts";
-import NextAuth, { User, Session, type NextAuthOptions } from "next-auth";
+import NextAuth, { User, Session } from "next-auth";
+import NextAuthOptions from "next-auth";
 import { JWT } from "next-auth/jwt";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { getUser } from "@/db/queries";
 import { authConfig } from "./auth.config";
-
 interface ExtendedUser extends User {
   id: string;
   email: string;
@@ -20,7 +20,7 @@ interface Credentials {
   password: string;
 }
 
-const authOptions: NextAuthOptions = {
+const authOptions = {
   ...authConfig,
   providers: [
     CredentialsProvider({
@@ -66,14 +66,7 @@ const authOptions: NextAuthOptions = {
     }),
   ],
   callbacks: {
-    async jwt({ token, user }): Promise<JWT> {
-      if (user) {
-        token.id = (user as ExtendedUser).id ?? "";
-        token.email = user.email;
-      }
-      return token;
-    },
-    async session({ session, token }): Promise<ExtendedSession> {
+    async session({ session, token }: { session: ExtendedSession; token: JWT }): Promise<ExtendedSession> {
       if (session.user) {
         session.user.id = token.id as string;
         session.user.email = token.email as string;
@@ -86,7 +79,7 @@ const authOptions: NextAuthOptions = {
     newUser: "/register",
   },
   session: {
-    strategy: "jwt",
+    strategy: "jwt" as const,
   },
   debug: process.env.NODE_ENV === "development",
 };

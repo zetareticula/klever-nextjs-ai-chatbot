@@ -1,6 +1,6 @@
 "use server";
+import { signIn } from "next-auth/react";
 import { z } from "zod";
-import { signIn } from "next-auth/react"; // Ensure correct import from NextAuth
 import { createUser, getUser } from "@/db/queries";
 
 export type ActionStatus = 

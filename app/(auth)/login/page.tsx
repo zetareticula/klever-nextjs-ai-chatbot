@@ -34,7 +34,7 @@ export default function Page() {
 
   const handleSubmit = (formData: FormData) => {
     setEmail(formData.get("email") as string);
-    formAction(formData);
+    formAction(); // Remove the argument from the function call
   };
 
   return (

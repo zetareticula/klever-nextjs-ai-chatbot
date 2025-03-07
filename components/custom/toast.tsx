@@ -21,19 +21,19 @@ function Toast(props: ToastProps) {
 
   return (
     <div className="flex w-full toast-mobile:w-[356px] justify-center">
-      <div
-        data-testid="toast"
-        key={id}
-        className="bg-zinc-100 p-3 rounded-lg w-full toast-mobile:w-fit flex flex-row gap-2 items-center"
-      >
         <div
-          data-type={type}
-          className="data-[type=error]:text-red-600 data-[type=success]:text-green-600"
+            data-testid="toast"
+            key={id}
+            className="bg-zinc-100 p-3 rounded-lg w-full toast-mobile:w-fit flex flex-row gap-2 items-center"
         >
-          //{iconsByType[type]}
+            <div
+                data-type={type}
+                className="data-[type=error]:text-red-600 data-[type=success]:text-green-600"
+            >
+                {/* {iconsByType[type]} */}
+            </div>
+            <div className="text-zinc-950 text-sm">{description}</div>
         </div>
-        <div className="text-zinc-950 text-sm">{description}</div>
-      </div>
     </div>
   );
 }

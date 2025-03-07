@@ -4,26 +4,26 @@ import { z } from "zod";
 import { customModel } from "@/ai";
 import { auth } from "@/app/(auth)/auth";
 import { deleteChatById, getChatById, saveChat } from "@/db/queries";
-
+import { getSession } from "next-auth/react";
+import { Request, Response } from "node-fetch";
+import { GetSessionParams } from "next-auth/react";
 
 // This route is responsible for handling the POST request to the chat API.
 export async function POST(request: Request) {
   //The request body contains the chat ID and messages
-  //The chat ID is used to identify the chat in the database
-  //The messages are the messages exchanged between the user and the chatbot
   const { id, messages }: { id: string; messages: Array<Message> } =
-    await request.json();
+      await request.json();
 
     // Check if the user is authenticated
-  const session = await auth();
+    const session = await getSession({ request } as GetSessionParams);
+    
+    // If the user is not authenticated, return an unauthorized response
+    if (!session) {
+      return new Response("Unauthorized", { status: 401 });
+    }
 
-  // If the user is not authenticated, return an unauthorized response
-  if (!session) {
-    return new Response("Unauthorized", { status: 401 });
-  }
-
-  // If the user is authenticated, get the chat from the database
-  const coreMessages = convertToCoreMessages(messages); //assign the messages to coreMessages
+    // If the user is authenticated, get the chat from the database
+    const coreMessages = convertToCoreMessages(messages); //assign the messages to coreMessages
 
   // Get the chat from the database
   const result = await streamText({

@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { getServerSession } from "next-auth/next"; 
+import { getSession } from "next-auth/react";
 import { signOut } from "next-auth/react";
 
 import { History } from "./history";
@@ -13,13 +13,13 @@ import {
 } from "../ui/dropdown-menu";
 
 export const Navbar = async () => {
-  const session = await getServerSession();
+  const session = await getSession();
 
   return (
     <div className="bg-background absolute top-0 left-0 w-full py-2 px-3 flex justify-between items-center z-30">
       <div className="flex items-center gap-3">
         <History user={session?.user} />
-        <span className="text-sm dark:text-zinc-300">Next.js Chatbot</span>
+        <span className="text-sm dark:text-zinc-300">KleverAI Chatbot</span>
       </div>
 
       {session ? (

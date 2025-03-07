@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { getServerSession } from "next-auth";
+import { getServerSession } from "next-auth/next"; 
 import { signOut } from "next-auth/react";
 
 import { History } from "./history";

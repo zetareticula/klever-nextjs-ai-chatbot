@@ -3,12 +3,12 @@
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useActionState, useEffect, useState } from 'react';
-import { toast } from '@/components/toast';
+import { toast } from '@/components/custom/toast';
 
-import { AuthForm } from '@/components/auth-form';
-import { SubmitButton } from '@/components/submit-button';
+import { AuthForm } from '@/components/custom/auth-form';
+import { SubmitButton } from '@/components/custom/submit-button';
 
-import { login, type LoginActionState } from '../actions';
+import { login, type ActionState } from '../actions';
 
 export default function Page() {
   const router = useRouter();
@@ -16,7 +16,7 @@ export default function Page() {
   const [email, setEmail] = useState('');
   const [isSuccessful, setIsSuccessful] = useState(false);
 
-  const [state, formAction] = useActionState<LoginActionState, FormData>(
+  const [state, formAction] = useActionState<ActionState, FormData>(
     login,
     {
       status: 'idle',
@@ -44,6 +44,8 @@ export default function Page() {
     setEmail(formData.get('email') as string);
     formAction(formData);
   };
+
+  
 
   return (
     <div className="flex h-dvh w-screen items-start pt-12 md:pt-0 md:items-center justify-center bg-background">

@@ -6,6 +6,7 @@ import { NextAuthConfig } from "next-auth";
 const protectedRoutes = ["/"];
 const authRoutes = ["/login", "/register"];
 
+//Report this error: 'authConfig' is defined but never used  @typescript-eslint/no-unused-vars
 export const authConfig: NextAuthConfig = {
   pages: {
     signIn: "/login",

@@ -1,6 +1,5 @@
 import { compare } from "bcrypt-ts";
 import NextAuth, { User, Session } from "next-auth";
-import NextAuthOptions from "next-auth";
 import { JWT } from "next-auth/jwt";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { getUser } from "@/db/queries";
@@ -88,5 +87,5 @@ const authInstance = NextAuth(authOptions);
 
 export const GET = authInstance.handlers.GET;
 export const POST = authInstance.handlers.POST;
-export { authInstance as auth };
+export { authInstance as auth, authOptions };
 export type { ExtendedUser, ExtendedSession, Credentials };

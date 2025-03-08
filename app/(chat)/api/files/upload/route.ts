@@ -19,8 +19,12 @@ const FileSchema = z.object({
     ),
 });
 
+// This route is responsible for handling the POST request to the files API.
 export async function POST(request: Request) {
+  // Check if the user is authenticated
   const session = await auth;
+
+  // If the user is not authenticated, return an unauthorized response
 
   if (!session) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });

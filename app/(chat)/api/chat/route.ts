@@ -5,7 +5,9 @@ import { z } from "zod";
 
 import { customModel } from "@/ai";
 import { auth } from "@/app/(auth)/auth";
-import { deleteChatById, getChatById, saveChat } from "@/db/queries";
+import { deleteChatById, getChatById, saveChat } 
+from "@/db/queries";
+
 
 
 // This route is responsible for handling the POST request to the chat API.

@@ -1,11 +1,12 @@
 import { convertToCoreMessages, Message, streamText } from "ai";
+import { getSession } from "next-auth/react";
+import { GetSessionParams } from "next-auth/react";
 import { z } from "zod";
 
 import { customModel } from "@/ai";
 import { auth } from "@/app/(auth)/auth";
 import { deleteChatById, getChatById, saveChat } from "@/db/queries";
-import { getSession } from "next-auth/react";
-import { GetSessionParams } from "next-auth/react";
+
 
 // This route is responsible for handling the POST request to the chat API.
 export async function POST(request: Request) {

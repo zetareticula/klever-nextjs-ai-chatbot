@@ -5,7 +5,6 @@ import { customModel } from "@/ai";
 import { auth } from "@/app/(auth)/auth";
 import { deleteChatById, getChatById, saveChat } from "@/db/queries";
 import { getSession } from "next-auth/react";
-import { Request, Response } from "node-fetch";
 import { GetSessionParams } from "next-auth/react";
 
 // This route is responsible for handling the POST request to the chat API.

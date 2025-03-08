@@ -1,6 +1,6 @@
 import { CoreMessage } from "ai";
 import { notFound } from "next/navigation";
-
+import { getSession } from "next-auth/react";
 import { auth } from "@/app/(auth)/auth";
 import { Chat as PreviewChat } from "@/components/custom/chat";
 import { getChatById } from "@/db/queries";
@@ -21,7 +21,7 @@ export default async function Page({ params }: { params: any }) {
     messages: convertToUIMessages(chatFromDb.messages as Array<CoreMessage>),
   };
 
-  const session = await auth();
+  const session = await getSession();
 
   if (!session || !session.user) {
     return notFound();

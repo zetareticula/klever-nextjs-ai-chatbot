@@ -3,7 +3,6 @@ import { getSession } from 'next-auth/react';
 import { authOptions } from "@/app/(auth)/auth"; // Import authOptions from the auth module
 import { deleteChatById, getChatsByUserId, saveChat } from "@/db/queries"; // Import the database queries
 import { NextApiRequest, NextApiResponse } from "next";
-import { Response } from "node-fetch";
 import { GetSessionParams } from 'next-auth/react';
 import { customModel } from "@/ai";
 import { streamText } from "ai";

@@ -8,10 +8,9 @@ import { GetSessionParams } from 'next-auth/react';
 import { customModel } from "@/ai";
 import { streamText } from "ai";
 import { z } from "zod";
-import fetch from "node-fetch";
 
-
-
+// This file contains the API routes for the chat history feature.
+// The routes are responsible for handling the POST, GET, and DELETE requests to the history API.
 
 // This route is responsible for handling the POST request to the history API.
 export async function POST(request: NextApiRequest, response: NextApiResponse) {

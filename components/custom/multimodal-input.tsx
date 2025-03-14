@@ -125,32 +125,27 @@ export function MultimodalInput({
     }
   };
 
-  const handleFileChange = useCallback(
-    async (event: ChangeEvent<HTMLInputElement>) => {
-      const files = Array.from(event.target.files || []);
+  setAttachments((currentAttachments) => [
+    ...currentAttachments,
+    ...uploadQueue.map((filename) => ({
+      url: "",
+      name: filename,
+      contentType: "",
+    })),
+  ]);
 
-      setUploadQueue(files.map((file) => file.name));
-
-      try {
-        const uploadPromises = files.map((file) => uploadFile(file));
-        const uploadedAttachments = await Promise.all(uploadPromises);
-        const successfullyUploadedAttachments = uploadedAttachments.filter(
-          (attachment) => attachment !== undefined,
-        );
-
-        setAttachments((currentAttachments) => [
-          ...currentAttachments,
-          ...successfullyUploadedAttachments,
-        ]);
-      } catch (error) {
-        console.error("Error uploading files!", error);
-      } finally {
-        setUploadQueue([]);
-      }
-    },
-    [setAttachments],
-  );
-
+  function handleFileChange(event: ChangeEvent<HTMLInputElement>): void {
+    const files = event.target.files;
+    if (files) {
+      const fileArray = Array.from(files);
+      fileArray.forEach(async (file) => {
+        const attachment = await uploadFile(file);
+        if (attachment) {
+          setAttachments((currentAttachments) => [...currentAttachments, attachment]);
+        }
+      });
+    }
+  }
   return (
     <div className="relative w-full flex flex-col gap-4">
       {messages.length === 0 &&

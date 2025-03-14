@@ -1,15 +1,18 @@
-import getServerSession, { NextAuthResult } from "next-auth";
-import { getSession } from 'next-auth/react';
-import { authOptions } from "@/app/(auth)/auth"; // Import authOptions from the auth module
-import { deleteChatById, getChatsByUserId, saveChat } from "@/db/queries"; // Import the database queries
-import { NextApiRequest, NextApiResponse } from "next";
-import { GetSessionParams } from 'next-auth/react';
 import { customModel } from "@/ai";
 import { streamText } from "ai";
 import { z } from "zod";
+import { NextApiRequest, NextApiResponse } from "next";
+import getServerSession, { NextAuthResult } from "next-auth";
+import { GetSessionParams } from 'next-auth/react';
+import { getSession } from 'next-auth/react';
+import { authOptions } from "@/app/(auth)/auth"; // Import authOptions from the auth module
+import { deleteChatById, getChatsByUserId, saveChat } from "@/db/queries"; // Import the database queries
+
 
 // This file contains the API routes for the chat history feature.
 // The routes are responsible for handling the POST, GET, and DELETE requests to the history API.
+
+
 
 // This route is responsible for handling the POST request to the history API.
 export async function POST(request: NextApiRequest, response: NextApiResponse) {

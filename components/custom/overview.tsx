@@ -20,7 +20,7 @@ export const Overview = () => {
             exit={{ opacity: 0, scale: 0.98 }}
             transition={{ delay: 0.5 }}
           >
-            <h1 className="text-5xl font-bold text-center text-orange-800">Klever Overview</h1>
+            <h1 className="text-5xl font-bold text-center text-orange-800">KleverAI</h1>
             
             {/* Font size control */}
             <div className="flex items-center space-x-4">

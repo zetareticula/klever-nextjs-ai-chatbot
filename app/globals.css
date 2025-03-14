@@ -1,75 +1,189 @@
-@import 'tailwindcss/base';
-@import 'tailwindcss/components';
-@import 'tailwindcss/utilities';
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 :root {
-  --foreground: rgb(64, 64, 64); /* Dark gray font */
-  --background: rgb(245, 245, 235); /* Beige background */
-  --primary: hsl(35, 100%, 60%);
-  --secondary: hsl(240, 4%, 90%);
-  --accent: hsl(220, 70%, 50%);
-  --destructive: hsl(0, 84%, 60%);
-  --border: hsl(220, 10%, 80%);
-  --radius: 0.5rem;
+    --foreground-rgb: 0, 0, 0;
+    --background-start-rgb: 36, 100%, 55%;
+    --background-end-rgb: 25, 65%, 75%;
 }
 
 @media (prefers-color-scheme: dark) {
-  :root {
-    --foreground: rgb(200, 200, 200);
-    --background: rgb(34, 34, 34);
-  }
-}
-
-@layer base {
-  * {
-    @apply border-border;
-  }
-
-  body {
-    @apply bg-[var(--background)] text-[var(--foreground)];
-    font-family: 'Aptos', sans-serif;
-  }
-
-  @font-face {
-    font-family: 'Aptos';
-    font-style: normal;
-    font-weight: 100 900;
-    src: url('/fonts/Aptos.woff2') format('woff2');
-    font-display: swap;
-  }
-
-  .btn {
-    @apply bg-[#FFB74D] text-[#8B4513] font-semibold rounded-lg transition-shadow shadow-md 
-      hover:bg-[#FFA726] focus:ring-2 focus:ring-offset-2 focus:ring-[#FF9800];
-  }
-
-  .btn-lg {
-    @apply text-xl px-6 py-3;
-  }
-
-  .input {
-    @apply bg-[#F5F5EB] text-[#404040] font-sans rounded-lg p-4 border-2 border-[#DCDCD2] outline-none 
-      focus:border-[#FF9800] focus:ring-2 focus:ring-[#FF9800];
-  }
+    :root {
+        --foreground-rgb: 255, 255, 255;
+        --background-start-rgb: 36, 80%, 40%;
+        --background-end-rgb: 25, 65%, 55%;
+    }
 }
 
 @layer utilities {
-  .utility-text-balance {
-    text-wrap: balance;
-  }
+    .text-balance {
+        text-wrap: balance;
+    }
+}
 
-  .utility-focus-ring {
-    outline: none;
-    box-shadow: 0 0 0 3px rgba(255, 152, 0, 0.5);
-  }
+@layer base {
+    :root {
+        --background: 0 0% 100%;
+        --foreground: 240 10% 3.9%;
+        --card: 0 0% 100%;
+        --card-foreground: 240 10% 3.9%;
+        --popover: 0 0% 100%;
+        --popover-foreground: 240 10% 3.9%;
+        --primary: 36 100% 55%;
+        --primary-foreground: 0 0% 98%;
+        --secondary: 120 60% 40%;
+        --secondary-foreground: 240 5.9% 10%;
+        --muted: 25 30% 85%;
+        --muted-foreground: 240 3.8% 46.1%;
+        --accent: 120 60% 40%;
+        --accent-foreground: 240 5.9% 10%;
+        --destructive: 0 84.2% 60.2%;
+        --destructive-foreground: 0 0% 98%;
+        --border: 36 70% 65%;
+        --input: 36 70% 65%;
+        --ring: 36 100% 55%;
+        --chart-1: 36 100% 55%;
+        --chart-2: 25 65% 75%;
+        --chart-3: 120 60% 40%;
+        --chart-4: 36 80% 45%;
+        --chart-5: 120 70% 30%;
+        --radius: 0.5rem;
+        --sidebar-background: 36 90% 60%;
+        --sidebar-foreground: 25 50% 65%;
+        --sidebar-primary: 36 100% 55%;
+        --sidebar-primary-foreground: 0 0% 98%;
+        --sidebar-accent: 120 60% 40%;
+        --sidebar-accent-foreground: 240 5.9% 10%;
+        --sidebar-border: 36 70% 65%;
+        --sidebar-ring: 36 100% 55%;
+    }
+    .dark {
+        --background: 36 100% 40%;
+        --foreground: 25 65% 65%;
+        --card: 36 80% 30%;
+        --card-foreground: 25 65% 80%;
+        --popover: 36 80% 30%;
+        --popover-foreground: 25 65% 80%;
+        --primary: 25 65% 65%;
+        --primary-foreground: 36 100% 40%;
+        --secondary: 120 50% 30%;
+        --secondary-foreground: 25 65% 80%;
+        --muted: 36 60% 25%;
+        --muted-foreground: 25 40% 70%;
+        --accent: 120 50% 30%;
+        --accent-foreground: 25 65% 80%;
+        --destructive: 0 62.8% 30.6%;
+        --destructive-foreground: 25 65% 80%;
+        --border: 36 60% 45%;
+        --input: 36 60% 45%;
+        --ring: 25 50% 75%;
+        --chart-1: 36 100% 55%;
+        --chart-2: 25 65% 65%;
+        --chart-3: 120 60% 40%;
+        --chart-4: 36 80% 45%;
+        --chart-5: 120 70% 30%;
+        --sidebar-background: 36 90% 30%;
+        --sidebar-foreground: 25 50% 75%;
+        --sidebar-primary: 36 100% 45%;
+        --sidebar-primary-foreground: 25 65% 80%;
+        --sidebar-accent: 120 50% 30%;
+        --sidebar-accent-foreground: 25 50% 75%;
+        --sidebar-border: 36 60% 45%;
+        --sidebar-ring: 36 100% 55%;
+    }
+}
 
-  .utility-skeleton {
-    @apply animate-pulse;
+@layer base {
     * {
-      pointer-events: none;
+        @apply border-border;
     }
-    .text-placeholder {
-      @apply bg-foreground/20 rounded-md text-transparent;
+
+    body {
+        background: linear-gradient(to right, hsl(36, 100%, 55%), hsl(25, 65%, 75%));
+        @apply text-foreground;
     }
-  }
+
+    .dark body {
+        background: linear-gradient(to right, hsl(36, 80%, 40%), hsl(25, 65%, 55%));
+    }
+
+    @font-face {
+        font-family: "geist";
+        font-style: normal;
+        font-weight: 100 900;
+        src: url(/fonts/geist.woff2) format("woff2");
+    }
+
+    @font-face {
+        font-family: "geist-mono";
+        font-style: normal;
+        font-weight: 100 900;
+        src: url(/fonts/geist-mono.woff2) format("woff2");
+    }
+}
+
+.skeleton {
+    * {
+        pointer-events: none !important;
+    }
+
+    *[class^="text-"] {
+        color: transparent;
+        @apply rounded-md bg-foreground/20 select-none animate-pulse;
+    }
+
+    .skeleton-bg {
+        @apply bg-foreground/10;
+    }
+
+    .skeleton-div {
+        @apply bg-foreground/20 animate-pulse;
+    }
+}
+
+.ProseMirror {
+    outline: none;
+}
+
+.cm-editor,
+.cm-gutters {
+    @apply outline-none selection:bg-zinc-900 !important;
+    background: linear-gradient(to right, hsl(36, 100%, 55%), hsl(25, 65%, 75%)) !important;
+}
+
+.dark .cm-editor,
+.dark .cm-gutters {
+    background: linear-gradient(to right, hsl(36, 80%, 40%), hsl(25, 65%, 55%)) !important;
+}
+
+.ͼo.cm-focused > .cm-scroller > .cm-selectionLayer .cm-selectionBackground,
+.ͼo.cm-selectionBackground,
+.ͼo.cm-content::selection {
+    @apply bg-zinc-200 dark:bg-zinc-900 !important;
+}
+
+.cm-activeLine,
+.cm-activeLineGutter {
+    @apply bg-transparent !important;
+}
+
+.cm-activeLine {
+    @apply rounded-r-sm !important;
+}
+
+.cm-lineNumbers {
+    @apply min-w-7;
+}
+
+.cm-foldGutter {
+    @apply min-w-3;
+}
+
+.cm-lineNumbers .cm-activeLineGutter {
+    @apply rounded-l-sm !important;
+}
+
+.suggestion-highlight {
+    @apply bg-blue-200 hover:bg-blue-300 dark:hover:bg-blue-400/50 dark:text-blue-50 dark:bg-blue-500/40;
 }
